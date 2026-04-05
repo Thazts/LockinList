@@ -1,12 +1,10 @@
 $ErrorActionPreference = "Stop"
 
 $AppName = "Lock in List"
-$DownloadUrl = "https://github.com/Thazts/LockinList/releases/latest/download/LockinList-apping.zip"
+$DownloadUrl = "https://github.com/Thazts/LockinList/releases/latest/download/LockinList.exe"
 $AppFolder = "$env:APPDATA\$AppName"
 $DesktopShortcut = "$env:USERPROFILE\Desktop\$AppName.lnk"
 $StartupShortcut = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\$AppName.lnk"
-$TempZip = "$env:TEMP\LockinList.zip"
-$TempExtract = "$env:TEMP\LockinList_extracted"
 
 Write-Host "Installing $AppName..." -ForegroundColor Cyan
 
@@ -16,22 +14,8 @@ if (!(Test-Path $AppFolder)) {
 }
 
 Write-Host "Downloading $AppName..." -ForegroundColor Cyan
-Invoke-WebRequest -Uri $DownloadUrl -OutFile $TempZip
+Invoke-WebRequest -Uri $DownloadUrl -OutFile "$AppFolder\LockinList.exe"
 Write-Host "Downloaded successfully" -ForegroundColor Green
-
-Write-Host "Extracting files..." -ForegroundColor Cyan
-Add-Type -AssemblyName System.IO.Compression.FileSystem
-if (Test-Path $TempExtract) { Remove-Item $TempExtract -Recurse -Force }
-[System.IO.Compression.ZipFile]::ExtractToDirectory($TempZip, $TempExtract)
-Write-Host "Extraction complete" -ForegroundColor Green
-
-$ExtractedExe = Get-ChildItem -Path $TempExtract -Recurse -Filter "LockinList.exe" | Select-Object -First 1
-if (!$ExtractedExe) { Write-Host "LockinList.exe not found in zip!" -ForegroundColor Red; exit 1 }
-Copy-Item -Path $ExtractedExe.FullName -Destination "$AppFolder\LockinList.exe" -Force
-Write-Host "Application installed to $AppFolder" -ForegroundColor Green
-
-Remove-Item $TempZip -Force
-Remove-Item $TempExtract -Recurse -Force
 
 Write-Host "Creating desktop shortcut..." -ForegroundColor Cyan
 $WshShell = New-Object -ComObject WScript.Shell
