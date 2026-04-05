@@ -1,7 +1,7 @@
 $ErrorActionPreference = "Stop"
 
 $AppName = "Lock in List"
-$DownloadUrl = "https://github.com/Thazts/LockinList/releases/latest/download/LockinList.zip"
+$DownloadUrl = "https://github.com/Thazts/LockinList/releases/latest/download/LockinList-apping.zip"
 $AppFolder = "$env:APPDATA\$AppName"
 $DesktopShortcut = "$env:USERPROFILE\Desktop\$AppName.lnk"
 $StartupShortcut = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\$AppName.lnk"
